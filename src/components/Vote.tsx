@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Pill } from "./Pill";
 import imgMichael from "img/michael.jpg";
 import imgJim from "img/jim.jpg";
 import imgPam from "img/pam.jpg";
@@ -53,8 +54,14 @@ const Character: React.FC<CharacterProps> = ({
     setSelected(true);
   };
 
+  useEffect(() => {
+    if (!voted) {
+      setSelected(false);
+    }
+  }, [voted]);
   let cardStyle = "rounded overflow-hidden shadow-lg";
-  if (selected && votes.winner) {
+  if (!voted) {
+  } else if (selected && votes.winner) {
     cardStyle += " border-4 border-yellow-400";
   } else if (selected) {
     cardStyle += " border-4 border-red-400";
@@ -74,13 +81,13 @@ const Character: React.FC<CharacterProps> = ({
             />
           )}
         </div>
-        <span className="inline-block text-xs bg-blue-100 py-1 px-3 mt-2 mb-4 font-semibold shadow-xs rounded-full">
-          {actor}
-        </span>
+        <div className="my-2">
+          <Pill>{actor}</Pill>
+        </div>
         <div>
           {!voted && (
             <button
-              className="bg-blue-500 hover:bg-blue-600 w-full hover:shadow py-2 rounded font-semibold tracking-wider text-white"
+              className="bg-blue-500 hover:bg-blue-600 w-full hover:shadow py-2 rounded font-semibold tracking-wider text-white text-sm"
               onClick={select}
             >
               VOTE
@@ -89,7 +96,7 @@ const Character: React.FC<CharacterProps> = ({
           {voted && (
             <button
               disabled={true}
-              className="bg-green-500 w-full hover:shadow py-2 rounded font-semibold text-white"
+              className="bg-green-500 w-full hover:shadow py-2 rounded font-semibold text-white text-sm"
             >
               {votes.count} votes / {votes.percentage}%
             </button>
@@ -134,6 +141,11 @@ const Vote = () => {
           />
         ))}
       </div>
+      {voted && (
+        <button className="text-blue-500" onClick={() => setVoted(false)}>
+          Reset
+        </button>
+      )}
     </div>
   );
 };

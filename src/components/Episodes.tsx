@@ -1,6 +1,7 @@
 import React from "react";
-import episodesData from "data/episodes.json";
 import { useState } from "react";
+import { EpisodeData, seasons } from "data/episodes";
+import EpisodePagination from "components/EpisodePagination";
 
 function formatDate(date: Date) {
   var d = new Date(date),
@@ -13,29 +14,6 @@ function formatDate(date: Date) {
 
   return [year, month, day].join("/");
 }
-
-type EpisodeData = {
-  title: string;
-  description: string;
-  writer: {
-    name: string;
-    role: string;
-  };
-  director: {
-    name: string;
-    role: string;
-  };
-
-  aired: Date;
-};
-
-const episodes: EpisodeData[] = (episodesData.data as any[]).map((episode) => {
-  const newEpisode: EpisodeData = episode;
-  newEpisode.aired = new Date(episode.airDate);
-  return newEpisode;
-});
-
-const seasons = [episodes.slice(0, 6), episodes.slice(6)];
 
 type Props = { season: number; number: number; episode: EpisodeData };
 
@@ -61,34 +39,6 @@ const Episode: React.FC<Props> = ({
         {formatDate(aired)} - {description}
       </p>
     </div>
-  );
-};
-
-type PaginationProps = {
-  pageCount: number;
-  page: number;
-  setPage: React.Dispatch<number>;
-};
-
-const Pagination: React.FC<PaginationProps> = ({
-  pageCount,
-  page,
-  setPage,
-}) => {
-  return (
-    <>
-      {[...Array(pageCount)].map((_, i) => {
-        const active = i === page;
-        const style = active
-          ? "text-blue-600 text-lg underline mr-4"
-          : "text-blue-600 text-lg mr-4";
-        return (
-          <button className={style} onClick={(e) => setPage(i)}>
-            {i + 1}
-          </button>
-        );
-      })}
-    </>
   );
 };
 
@@ -121,7 +71,11 @@ const Episodes: React.FC = () => {
         </select>
 
         {pageCount > 1 && (
-          <Pagination pageCount={pageCount} page={page} setPage={setPage} />
+          <EpisodePagination
+            pageCount={pageCount}
+            page={page}
+            setPage={setPage}
+          />
         )}
       </div>
 
