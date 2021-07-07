@@ -59,13 +59,17 @@ const Character: React.FC<CharacterProps> = ({
       setSelected(false);
     }
   }, [voted]);
-  let cardStyle = "rounded overflow-hidden shadow-lg";
+  let cardStyle = "rounded overflow-hidden shadow";
   if (!voted) {
   } else if (selected && votes.winner) {
     cardStyle += " border-4 border-yellow-400";
   } else if (selected) {
     cardStyle += " border-4 border-red-400";
   }
+
+  let votedBtnStyle = selected
+    ? "bg-green-500 w-full hover:shadow py-2 rounded font-semibold text-white text-sm"
+    : "bg-gray-200 w-full hover:shadow py-2 rounded font-semibold text-gray-600 text-sm";
 
   return (
     <div className={cardStyle}>
@@ -94,10 +98,7 @@ const Character: React.FC<CharacterProps> = ({
             </button>
           )}
           {voted && (
-            <button
-              disabled={true}
-              className="bg-green-500 w-full hover:shadow py-2 rounded font-semibold text-white text-sm"
-            >
+            <button disabled={true} className={votedBtnStyle}>
               {votes.count} votes / {votes.percentage}%
             </button>
           )}
@@ -142,8 +143,8 @@ const Vote = () => {
         ))}
       </div>
       {voted && (
-        <button className="text-blue-500" onClick={() => setVoted(false)}>
-          Reset
+        <button className="text-blue-500 mt-3" onClick={() => setVoted(false)}>
+          Recount!
         </button>
       )}
     </div>

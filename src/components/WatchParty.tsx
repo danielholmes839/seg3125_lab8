@@ -1,39 +1,8 @@
 import { useState } from "react";
 import { seasons, EpisodeData } from "data/episodes";
 import { Pill } from "./Pill";
-
-type WatchPartyData = {
-  title: string;
-  location: string;
-  date: Date;
-
-  season: number;
-  episode: number;
-};
-
-const initialParties: WatchPartyData[] = [
-  {
-    title: "Epic Watch Party 1",
-    location: "Ottawa, Canada",
-    date: new Date(),
-    season: 0,
-    episode: 0,
-  },
-  {
-    title: "Epic Watch Party 2",
-    location: "Toronto, Canada",
-    date: new Date(),
-    season: 0,
-    episode: 5,
-  },
-  {
-    title: "Epic Watch Party 3",
-    location: "Tabaret Hall, Ottawa, Canada",
-    date: new Date(),
-    season: 1,
-    episode: 0,
-  },
-];
+import WatchPartyForm from "components/WatchPartyForm";
+import { parties as initialParties, WatchPartyData } from "data/parties";
 
 type Props = {
   party: WatchPartyData;
@@ -88,6 +57,14 @@ const WatchParty: React.FC<Props> = ({
 const WatchPartySection: React.FC = () => {
   const [parties, setParties] = useState<WatchPartyData[]>(initialParties);
 
+  const addParty = (party: WatchPartyData) => {
+    // addParty to parties
+    const newParties = [party, ...parties].sort(
+      (a, b) => b.date.getTime() - a.date.getTime()
+    );
+    setParties(newParties);
+  };
+
   return (
     <div className="mt-5 mb-20">
       <h1 className="text-3xl">Watch Parties</h1>
@@ -96,6 +73,7 @@ const WatchPartySection: React.FC = () => {
           <WatchParty key={i} party={party} />
         ))}
       </div>
+      <WatchPartyForm addParty={addParty} />
     </div>
   );
 };
