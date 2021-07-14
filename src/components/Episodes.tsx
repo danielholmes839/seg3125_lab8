@@ -2,18 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { EpisodeData, seasons } from "data/episodes";
 import EpisodePagination from "components/EpisodePagination";
-
-function formatDate(date: Date) {
-  var d = new Date(date),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [year, month, day].join("/");
-}
+import { formatDate } from "helpers";
 
 type Props = { season: number; number: number; episode: EpisodeData };
 

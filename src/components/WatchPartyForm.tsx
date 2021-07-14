@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { WatchPartyData } from "data/parties";
 import { seasons } from "data/episodes";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import { ModifiersUtils } from "react-day-picker/types/Modifiers";
 import { useEffect } from "react";
+import { useMemo } from "react";
 
 type Props = {
+  party?: WatchPartyData;
   addParty(party: WatchPartyData): void;
+  closeModal(): void;
 };
 
 type EpisodeNumber = {
@@ -14,16 +16,30 @@ type EpisodeNumber = {
   episode: number;
 };
 
-type Errors = {
-  title: boolean;
-  location: boolean;
+type FormText = {
+  formTitle: string;
+  formSubmit: string;
 };
 
-const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
+const WatchPartyForm: React.FC<Props> = ({ party, addParty, closeModal }) => {
   const [episodeNumber, setEpisodeNumber] = useState<EpisodeNumber>({
     season: 0,
     episode: 0,
   });
+
+  const { formTitle, formSubmit } = useMemo<FormText>(() => {
+    if (party === undefined) {
+      return {
+        formSubmit: "Create",
+        formTitle: "New Watch Party",
+      };
+    } else {
+      return {
+        formSubmit: "Edit",
+        formTitle: "Edit Watch Party",
+      };
+    }
+  }, []);
 
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState("");
@@ -32,6 +48,23 @@ const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
   const [locationError, setLocationError] = useState(false);
 
   useEffect(() => {
+    console.log("Adding defaults");
+    if (party === undefined) {
+      return;
+    }
+
+    setEpisodeNumber({
+      episode: party.episode,
+      season: party.season,
+    });
+
+    setDate(party.date);
+    setTitle(party.title);
+    setLocation(party.location);
+  }, [party]);
+
+  // Reseting errors
+  useEffect(() => {
     setTitleError(false);
   }, [title]);
 
@@ -39,6 +72,7 @@ const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
     setLocationError(false);
   }, [location]);
 
+  // Changing season and episode numbers
   const seasonOnChange = (e: any) => {
     let season = parseInt(e.target.value);
     setEpisodeNumber({ season: season, episode: 0 });
@@ -74,11 +108,13 @@ const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
         title: title,
       });
     }
+
+    closeModal();
   };
 
   return (
-    <div className="w-96 p-5 shadow mt-5">
-      <h1 className="text-3xl">New Watch Party</h1>
+    <div className="w-96 p-10 pb-3 shadow mt-5 bg-white rounded-lg">
+      <h1 className="text-3xl">{formTitle}</h1>
 
       <h2 className="font-semibold mt-3">Title</h2>
       <input
@@ -86,6 +122,7 @@ const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
         className="focus:outline-none border border-gray-200 rounded px-2 py-1 w-full"
         placeholder="ex: Epic Watch Party 1 "
         onChange={(e) => setTitle(e.target.value)}
+        value={title}
       />
       {titleError && (
         <p className="text-red-500 text-sm">Please enter a title</p>
@@ -97,6 +134,7 @@ const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
         className="focus:outline-none border border-gray-200 rounded px-2 py-1 w-full"
         placeholder="ex: Scranton Pennsylvania"
         onChange={(e) => setLocation(e.target.value)}
+        value={location}
       />
       {locationError && (
         <p className="text-red-500 text-sm">Please enter a location</p>
@@ -116,6 +154,8 @@ const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
           overlay: "DayPickerInput-Overlay",
           overlayWrapper: "DayPickerInput-OverlayWrapper",
         }}
+        value={date}
+        formatDate={(d) => d.toLocaleDateString()}
         placeholder="YYYY-M-D - defaults to today"
         dayPickerProps={{ disabledDays: { before: new Date() } }}
       />
@@ -144,8 +184,13 @@ const WatchPartyForm: React.FC<Props> = ({ addParty }) => {
         onClick={submit}
         className="bg-blue-500 hover:bg-blue-600 w-full hover:shadow py-2 rounded font-semibold tracking-wider text-white text-sm mt-3"
       >
-        Create
+        {formSubmit}
       </button>
+      <div className="text-center mt-1">
+        <button onClick={closeModal} className="text-red-500 text-sm mx-auto">
+          Cancel
+        </button>
+      </div>
     </div>
   );
 };
