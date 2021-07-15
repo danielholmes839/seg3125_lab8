@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/seg3125_lab8/static/css/main.5ec9491f.chunk.css",
+    "main.js": "/seg3125_lab8/static/js/main.33e5ca9a.chunk.js",
+    "main.js.map": "/seg3125_lab8/static/js/main.33e5ca9a.chunk.js.map",
+    "runtime-main.js": "/seg3125_lab8/static/js/runtime-main.18ecca30.js",
+    "runtime-main.js.map": "/seg3125_lab8/static/js/runtime-main.18ecca30.js.map",
+    "static/css/2.07c45b87.chunk.css": "/seg3125_lab8/static/css/2.07c45b87.chunk.css",
+    "static/js/2.99719870.chunk.js": "/seg3125_lab8/static/js/2.99719870.chunk.js",
+    "static/js/2.99719870.chunk.js.map": "/seg3125_lab8/static/js/2.99719870.chunk.js.map",
+    "index.html": "/seg3125_lab8/index.html",
+    "static/css/2.07c45b87.chunk.css.map": "/seg3125_lab8/static/css/2.07c45b87.chunk.css.map",
+    "static/css/main.5ec9491f.chunk.css.map": "/seg3125_lab8/static/css/main.5ec9491f.chunk.css.map",
+    "static/js/2.99719870.chunk.js.LICENSE.txt": "/seg3125_lab8/static/js/2.99719870.chunk.js.LICENSE.txt",
+    "static/media/custom.css": "/seg3125_lab8/static/media/american-typewriter.34bd1acb.ttf",
+    "static/media/dwight.f6340c69.jpeg": "/seg3125_lab8/static/media/dwight.f6340c69.jpeg",
+    "static/media/jim.45f4adec.jpg": "/seg3125_lab8/static/media/jim.45f4adec.jpg",
+    "static/media/michael.4d640560.jpg": "/seg3125_lab8/static/media/michael.4d640560.jpg",
+    "static/media/pam.1ea9fb47.jpg": "/seg3125_lab8/static/media/pam.1ea9fb47.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.18ecca30.js",
+    "static/css/2.07c45b87.chunk.css",
+    "static/js/2.99719870.chunk.js",
+    "static/css/main.5ec9491f.chunk.css",
+    "static/js/main.33e5ca9a.chunk.js"
+  ]
+}
