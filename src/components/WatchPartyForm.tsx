@@ -39,7 +39,7 @@ const WatchPartyForm: React.FC<Props> = ({ party, addParty, closeModal }) => {
         formTitle: "Edit Watch Party",
       };
     }
-  }, []);
+  }, [party]);
 
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState("");
@@ -48,7 +48,6 @@ const WatchPartyForm: React.FC<Props> = ({ party, addParty, closeModal }) => {
   const [locationError, setLocationError] = useState(false);
 
   useEffect(() => {
-    console.log("Adding defaults");
     if (party === undefined) {
       return;
     }
@@ -107,9 +106,9 @@ const WatchPartyForm: React.FC<Props> = ({ party, addParty, closeModal }) => {
         owner: true,
         title: title,
       });
-    }
 
-    closeModal();
+      closeModal();
+    }
   };
 
   return (

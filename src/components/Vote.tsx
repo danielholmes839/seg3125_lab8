@@ -5,6 +5,7 @@ import imgJim from "img/jim.jpg";
 import imgPam from "img/pam.jpg";
 import imgDwight from "img/dwight.jpeg";
 import trophy from "img/trophy.png";
+import { useLanguage } from "./LanguageContext";
 
 type CharacterData = {
   actor: string;
@@ -48,6 +49,7 @@ const Character: React.FC<CharacterProps> = ({
   voted,
   setVoted,
 }) => {
+  const { voteText } = useLanguage().translation;
   const [selected, setSelected] = useState(false);
   const select = () => {
     setVoted(true);
@@ -94,7 +96,7 @@ const Character: React.FC<CharacterProps> = ({
               className="bg-blue-500 hover:bg-blue-600 w-full hover:shadow py-2 rounded font-semibold tracking-wider text-white text-sm"
               onClick={select}
             >
-              VOTE
+              {voteText}
             </button>
           )}
           {voted && (
@@ -115,6 +117,7 @@ type VoteInfo = {
 };
 
 const Vote = () => {
+  const { favouriteCharacterText } = useLanguage().translation;
   const [voted, setVoted] = useState(false);
   const votes: number[] = [...Array(4)].map(() => Math.random() * 1000);
   const votesMax = Math.max(...votes);
@@ -130,7 +133,7 @@ const Vote = () => {
 
   return (
     <div className="mt-5">
-      <h1 className="text-3xl">Favourite Character Vote!</h1>
+      <h1 className="text-3xl">{favouriteCharacterText}</h1>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-5 gap-5">
         {characters.map((character, i) => (
           <Character

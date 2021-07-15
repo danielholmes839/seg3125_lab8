@@ -5,6 +5,7 @@ import WatchPartyForm from "components/WatchPartyForm";
 import WatchPartyAttendance from "components/WatchPartyAttendance";
 import { parties as initialParties, WatchPartyData } from "data/parties";
 import Modal from "react-modal";
+import { useLanguage } from "./LanguageContext";
 
 const style: Modal.Styles = {
   overlay: {
@@ -28,6 +29,7 @@ type WatchPartyCardProps = {
 };
 
 const WatchPartyCard: React.FC<WatchPartyCardProps> = ({ edit, party }) => {
+  const { editText } = useLanguage().translation;
   const { title, location, date, season, episode, owner } = party;
   const { title: episodeTitle }: EpisodeData = seasons[season][episode];
 
@@ -49,7 +51,7 @@ const WatchPartyCard: React.FC<WatchPartyCardProps> = ({ edit, party }) => {
           onClick={openModal}
           className="inline float-right text-sm text-blue-500 mt-2"
         >
-          Edit
+          {editText}
         </button>
       )}
       <div className="my-2">
@@ -69,6 +71,7 @@ const WatchPartyCard: React.FC<WatchPartyCardProps> = ({ edit, party }) => {
 };
 
 const WatchPartySection: React.FC = () => {
+  const { watchPartyText, createText } = useLanguage().translation;
   const [parties, setParties] = useState<WatchPartyData[]>(initialParties);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -100,9 +103,9 @@ const WatchPartySection: React.FC = () => {
 
   return (
     <div className="mt-5 mb-20">
-      <h1 className="text-3xl">Watch Parties</h1>
-      <button onClick={openModal} className="text-blue-500 underline">
-        Create
+      <h1 className="text-3xl">{watchPartyText}</h1>
+      <button onClick={openModal} className="text-blue-500">
+        {createText}
       </button>
       <div className="mt-5 gap-5 grid grid-cols-3">
         {parties.map((party, i) => (

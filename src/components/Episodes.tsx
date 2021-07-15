@@ -3,6 +3,7 @@ import { useState } from "react";
 import { EpisodeData, seasons } from "data/episodes";
 import EpisodePagination from "components/EpisodePagination";
 import { formatDate } from "helpers";
+import { useLanguage } from "./LanguageContext";
 
 type Props = { season: number; number: number; episode: EpisodeData };
 
@@ -33,6 +34,7 @@ const Episode: React.FC<Props> = ({
 
 const Episodes: React.FC = () => {
   // Episodes component renders all episodes, pagination,
+  const { seasonText, episodeText } = useLanguage().translation;
   const [season, setSeason] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
 
@@ -47,7 +49,7 @@ const Episodes: React.FC = () => {
   return (
     <div className="mt-5">
       <div>
-        <h1 className="text-3xl">Episodes</h1>
+        <h1 className="text-3xl">{episodeText}</h1>
         <select
           className="w-52 p-1 my-3 mr-5 rounded text-lg border border-gray-100 focus:outline-none hover:shadow-sm"
           onChange={(e) => {
@@ -55,8 +57,8 @@ const Episodes: React.FC = () => {
             setPage(0);
           }}
         >
-          <option value={0}>Season 1</option>
-          <option value={1}>Season 2</option>
+          <option value={0}>{seasonText} 1</option>
+          <option value={1}>{seasonText} 2</option>
         </select>
 
         {pageCount > 1 && (
